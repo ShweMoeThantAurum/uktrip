@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cardiff · Bath · Bristol ✈︎</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<script type="text/javascript" nonce="50e67daff5ce45edba04230f936" src="//local.adguard.org?ts=1783347645835&amp;type=content-script&amp;dmn=chatgpt.com&amp;url=https%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000003fe871f4968df53d8fdbe80f%26ts%3D495376%26p%3Dfs%26cid%3D1%26sig%3Dadcd12e4a45138de67bcb8b4eb8d637d81c9adf278ae0a4550d0f2e9c8ed2fb4%26v%3D0&amp;app=com.brave.Browser&amp;css=2&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="50e67daff5ce45edba04230f936" src="//local.adguard.org?ts=1783347645835&amp;name=AdGuard%20Extra&amp;type=user-script"></script><link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=DM+Sans:wght@400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
 /* ─── TOKENS ─────────────────────────────────────────── */
@@ -384,6 +384,67 @@ footer .heart-line {
   .i-card { padding: 14px 16px; }
   .wrap { padding: 0 12px; }
 }
+
+/* ─── SOFT ANIMATIONS (added, keeps existing design) ─── */
+@keyframes fadeUpSoft {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes photoBloom {
+  from { opacity: 0; transform: scale(1.03); filter: saturate(0.85); }
+  to   { opacity: 1; transform: scale(1); filter: saturate(1); }
+}
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(232,160,176,0); }
+  50%      { box-shadow: 0 0 18px rgba(232,160,176,0.28); }
+}
+@keyframes tinyPop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.hero-eyebrow { animation: fadeUpSoft 0.65s ease both; }
+.hero h1      { animation: fadeUpSoft 0.7s ease 0.08s both; }
+.hero-sub     { animation: fadeUpSoft 0.7s ease 0.16s both; }
+.route-pill   { animation: fadeUpSoft 0.65s ease both; }
+.route-pill:nth-child(1) { animation-delay: 0.24s; }
+.route-pill:nth-child(2) { animation-delay: 0.32s; }
+.route-pill:nth-child(3) { animation-delay: 0.40s; }
+.day-badge { animation: badgeGlow 3.8s ease-in-out infinite; }
+.place-img-wrap img { animation: photoBloom 0.55s ease both; }
+.d-btn:active { transform: scale(0.97); }
+.place-card.choice-pop { animation: tinyPop 0.28s ease; }
+.anim-ready .i-card,
+.anim-ready .day-head,
+.anim-ready .day-sub,
+.anim-ready .city-label,
+.anim-ready .place-card {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.anim-ready .reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.place-img-wrap.has-photo .place-icon-fallback { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .anim-ready .i-card,
+  .anim-ready .day-head,
+  .anim-ready .day-sub,
+  .anim-ready .city-label,
+  .anim-ready .place-card {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1026,6 +1087,128 @@ footer .heart-line {
     wrap.appendChild(p);
   }
 
+
+
+  /* ─── Auto-fill missing photos + reveal animations ─── */
+  const photoQueries = {
+    'roman-baths': 'Roman Baths Bath England',
+    'bath-abbey': 'Bath Abbey exterior',
+    'pulteney-bridge': 'Pulteney Bridge Bath',
+    'royal-crescent': 'Royal Crescent Bath',
+    'thermae-spa': 'Thermae Bath Spa rooftop pool',
+    'parade-gardens': 'Parade Gardens Bath Pulteney Bridge',
+    'bath-fashion-museum': 'Fashion Museum Bath Assembly Rooms',
+    'prior-park': 'Prior Park Landscape Garden Palladian bridge Bath',
+    'ss-great-britain': 'SS Great Britain Bristol ship',
+    'clifton-bridge': 'Clifton Suspension Bridge Bristol',
+    'bristol-harbour': 'Bristol Harbourside harbour',
+    'm-shed': 'M Shed Bristol museum',
+    'bristol-museum': 'Bristol Museum and Art Gallery building',
+    'cabot-tower': 'Cabot Tower Brandon Hill Bristol',
+    'st-nicholas-market': 'St Nicholas Market Bristol',
+    'banksy-walk': 'Banksy street art Bristol mural',
+    'clifton-village': 'Clifton Village Bristol',
+    'cardiff-castle': 'Cardiff Castle Wales',
+    'national-museum': 'National Museum Cardiff building',
+    'bute-park': 'Bute Park Cardiff river Taff',
+    'arcades': 'Victorian Arcades Cardiff Castle Arcade',
+    'principality-stadium': 'Principality Stadium Cardiff exterior',
+    'cardiff-market': 'Cardiff Indoor Market interior',
+    'cardiff-bay': 'Wales Millennium Centre Cardiff Bay',
+    'senedd': 'Senedd Cardiff Bay Welsh Parliament',
+    'mermaid-quay': 'Mermaid Quay Cardiff Bay waterfront',
+    'pier-head': 'Pierhead Building Cardiff Bay',
+    'bay-barrage': 'Cardiff Bay Barrage',
+    'caerphilly': 'Caerphilly Castle Wales',
+    'castell-coch': 'Castell Coch Wales exterior',
+    'st-fagans': 'St Fagans National Museum of History Cardiff',
+    'penarth': 'Penarth Pier seafront Wales',
+    'roath-park': 'Roath Park Lake Cardiff',
+    'bay-dusk': 'Cardiff Bay dusk waterfront',
+    'chippy-lane': 'Caroline Street Cardiff Chippy Lane'
+  };
+
+  document.body.classList.add('anim-ready');
+  const revealItems = document.querySelectorAll('.i-card, .day-head, .day-sub, .city-label, .place-card');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('reveal-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealItems.forEach((el, i)=>{
+      el.style.transitionDelay = `${Math.min(i % 6, 5) * 0.04}s`;
+      observer.observe(el);
+    });
+  } else {
+    revealItems.forEach(el=>el.classList.add('reveal-in'));
+  }
+
+  function cacheGet(key){
+    try { return localStorage.getItem('trip-photo:' + key); } catch(e) { return null; }
+  }
+  function cacheSet(key, value){
+    try { localStorage.setItem('trip-photo:' + key, value); } catch(e) {}
+  }
+  function putPhoto(card, url){
+    if(!card || !url) return;
+    const imgWrap = card.querySelector('.place-img-wrap');
+    if(!imgWrap) return;
+    let img = imgWrap.querySelector('img');
+    if(!img){
+      img = document.createElement('img');
+      img.loading = 'lazy';
+      img.dataset.autoPhoto = 'true';
+      img.alt = (card.querySelector('.place-name')?.textContent || 'Trip place').trim();
+      const tag = imgWrap.querySelector('.place-tag');
+      tag ? tag.insertAdjacentElement('afterend', img) : imgWrap.prepend(img);
+    }
+    img.addEventListener('load', ()=>imgWrap.classList.add('has-photo'), { once:true });
+    img.addEventListener('error', ()=>{
+      if(img.dataset.autoPhoto === 'true') img.remove();
+      imgWrap.classList.remove('has-photo');
+    }, { once:true });
+    img.src = url;
+  }
+  async function commonsPhoto(query){
+    const api = 'https://commons.wikimedia.org/w/api.php?origin=*&action=query&generator=search&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&gsrsearch=' + encodeURIComponent(query + ' -logo -map -diagram -icon');
+    const res = await fetch(api);
+    if(!res.ok) throw new Error('Photo search failed');
+    const data = await res.json();
+    const pages = Object.values(data?.query?.pages || {});
+    const image = pages.find(p=>{
+      const url = p?.imageinfo?.[0]?.thumburl || p?.imageinfo?.[0]?.url || '';
+      return /\.(jpe?g|png|webp)(\?|$)/i.test(url);
+    });
+    return image?.imageinfo?.[0]?.thumburl || image?.imageinfo?.[0]?.url || null;
+  }
+  async function loadMissingPhoto(card){
+    const id = card.dataset.id;
+    const query = photoQueries[id];
+    if(!query) return;
+    const cached = cacheGet(id);
+    if(cached){ putPhoto(card, cached); return; }
+    try{
+      const url = await commonsPhoto(query);
+      if(url){ cacheSet(id, url); putPhoto(card, url); }
+    }catch(e){}
+  }
+  document.querySelectorAll('.place-card').forEach(card=>{
+    const imgWrap = card.querySelector('.place-img-wrap');
+    const img = imgWrap?.querySelector('img');
+    if(img){
+      img.addEventListener('load', ()=>imgWrap.classList.add('has-photo'), { once:true });
+      img.addEventListener('error', ()=>loadMissingPhoto(card), { once:true });
+      if(img.complete && img.naturalWidth > 0) imgWrap.classList.add('has-photo');
+    } else {
+      loadMissingPhoto(card);
+    }
+  });
+
+
   /* ─── Decision logic ─── */
   const PREFIX = 'trip-decision:';
   const decisions = {};
@@ -1066,6 +1249,8 @@ footer .heart-line {
     const nv=decisions[id]===v?null:v;
     if(nv) decisions[id]=nv; else delete decisions[id];
     paint(id); tally();
+    const card=document.querySelector('.place-card[data-id="'+id+'"]');
+    if(card){ card.classList.remove('choice-pop'); void card.offsetWidth; card.classList.add('choice-pop'); }
     try{
       if(nv) await window.storage.set(PREFIX+id,nv,true);
       else   await window.storage.delete(PREFIX+id,true);
@@ -1106,4 +1291,3 @@ footer .heart-line {
 </script>
 </body>
 </html>
-
