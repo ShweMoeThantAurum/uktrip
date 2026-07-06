@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiff · Bath · Bristol ✈︎</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=DM+Sans:wght@400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --rose:        #e8a0b0;
+  --rose-deep:   #c96b8a;
+  --rose-light:  #f5d5de;
+  --blush:       #fdf0f3;
+  --blush-2:     #f9e5eb;
+  --mauve:       #9b6b7e;
+  --mauve-dark:  #6b3d52;
+  --ivory:       #fef9f6;
+  --ivory-2:     #f7efe8;
+  --sage:        #8fad98;
+  --sage-dark:   #5c7c65;
+  --gold:        #c9956e;
+  --gold-light:  #e8c4a8;
+  --text:        #3d2030;
+  --text-soft:   #7a5060;
+  --line:        rgba(200,130,155,0.2);
+  --yes:         #6aaa7e;
+  --maybe:       #c9956e;
+  --no:          #b07a8a;
+  --shadow:      0 4px 24px rgba(180,100,130,0.12);
+  --shadow-lg:   0 12px 40px rgba(180,100,130,0.18);
+  --r:           18px;
+}
+*  { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ivory);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.serif   { font-family: 'Playfair Display', serif; }
+.script  { font-family: 'Dancing Script', cursive; }
+
+/* ─── PETALS DECORATION ──────────────────────────────── */
+.petal-wrap {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.petal {
+  position: absolute;
+  width: 10px; height: 14px;
+  background: radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.6), rgba(232,160,176,0.35));
+  border-radius: 50% 5% 50% 5%;
+  animation: floatpetal linear infinite;
+  opacity: 0;
+}
+@keyframes floatpetal {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(110vh) rotate(720deg) translateX(60px); opacity: 0; }
+}
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero {
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(232,160,176,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 100%, rgba(201,149,110,0.3) 0%, transparent 50%),
+    linear-gradient(160deg, #5c2a3e 0%, #3d1828 55%, #2e1020 100%);
+  color: #fff;
+  padding: 72px 20px 60px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.hero-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-family: 'Dancing Script', cursive;
+  font-size: 22px;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 8vw, 64px);
+  line-height: 1.08;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--rose);
+}
+.hero-sub {
+  font-size: clamp(14px, 3.5vw, 16px);
+  color: rgba(255,255,255,0.75);
+  max-width: 480px;
+  margin: 0 auto 32px;
+}
+.route-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.route-pill {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; gap: 6px;
+}
+.route-pill .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rose);
+  flex-shrink: 0;
+}
+
+/* ─── STICKY NAV ─────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(254,249,246,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 16px;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-scroll {
+  display: flex; gap: 8px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; flex: 1;
+}
+.filter-scroll::-webkit-scrollbar { display: none; }
+.f-btn {
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.f-btn:hover { border-color: var(--rose); color: var(--rose-deep); }
+.f-btn.active {
+  background: linear-gradient(135deg, var(--rose-deep), var(--mauve));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(200,107,138,0.35);
+}
+.tally {
+  display: flex; gap: 10px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-soft);
+  white-space: nowrap; flex-shrink: 0;
+}
+.tally-item { display: flex; align-items: center; gap: 4px; }
+.t-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─── INFO STRIP ─────────────────────────────────────── */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.info-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 32px 0 0;
+}
+.i-card {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.i-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px; font-style: italic;
+  color: var(--rose-deep); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.i-card p { font-size: 13.5px; color: var(--text-soft); margin-bottom: 5px; }
+.i-card p:last-child { margin-bottom: 0; }
+.i-card a { color: var(--mauve-dark); font-weight: 600; text-decoration: none; }
+.warn { border-color: rgba(201,149,110,0.5); background: linear-gradient(135deg,#fff,#fef4ee); }
+
+/* ─── DAY SECTIONS ───────────────────────────────────── */
+.day-section { margin: 56px 0 24px; }
+.day-head { margin-bottom: 6px; }
+.day-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--rose-light), var(--blush-2));
+  border: 1.5px solid var(--rose);
+  color: var(--rose-deep);
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 100px;
+  margin-bottom: 10px;
+}
+.day-badge .heart { font-size: 10px; }
+.day-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 700; line-height: 1.1;
+  color: var(--mauve-dark);
+  margin-bottom: 8px;
+}
+.day-sub {
+  font-size: 14.5px; color: var(--text-soft); max-width: 620px;
+  padding-bottom: 20px;
+  border-bottom: 2px dashed var(--line);
+  margin-bottom: 4px;
+}
+.city-label {
+  font-family: 'Dancing Script', cursive;
+  font-size: 20px; color: var(--rose-deep);
+  margin: 28px 0 0; display: flex; align-items: center; gap: 8px;
+}
+.city-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--rose-light), transparent);
+}
+
+/* ─── CARD GRID ──────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+.place-card {
+  background: #fff;
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1.5px solid var(--line);
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.place-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.place-card.decided-yes {
+  border-color: var(--yes);
+  box-shadow: 0 0 0 2.5px rgba(106,170,126,0.3), var(--shadow);
+}
+.place-card.decided-no { opacity: 0.48; }
+
+/* img wrap */
+.place-img-wrap {
+  position: relative;
+  aspect-ratio: 16/10;
+  background: linear-gradient(135deg, var(--blush-2), var(--rose-light));
+  overflow: hidden;
+}
+.place-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.4s ease;
+}
+.place-card:hover .place-img-wrap img { transform: scale(1.04); }
+.place-icon-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--rose); opacity: 0.45;
+}
+.place-tag {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(61, 32, 48, 0.72);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 10px; border-radius: 100px;
+}
+
+/* card body */
+.place-body {
+  padding: 16px 18px 18px;
+  display: flex; flex-direction: column; gap: 9px; flex: 1;
+}
+.place-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--mauve-dark); line-height: 1.2;
+}
+.place-desc { font-size: 13.5px; color: var(--text-soft); flex: 1; }
+.place-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--rose-deep); text-decoration: none;
+  border-bottom: 1px solid var(--rose-light);
+  padding-bottom: 1px;
+  transition: color 0.15s;
+}
+.place-link:hover { color: var(--mauve-dark); }
+
+/* decision buttons */
+.decision-row {
+  display: flex; gap: 7px; margin-top: 4px;
+}
+.d-btn {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px; font-weight: 600;
+  padding: 9px 6px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  background: var(--blush);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.d-btn:hover { border-color: var(--rose); }
+.d-btn[data-v="yes"].active  { background: var(--yes); border-color: var(--yes); color: #fff; box-shadow: 0 2px 8px rgba(106,170,126,0.4); }
+.d-btn[data-v="maybe"].active{ background: var(--maybe); border-color: var(--maybe); color: #fff; box-shadow: 0 2px 8px rgba(201,149,110,0.4); }
+.d-btn[data-v="no"].active   { background: var(--no); border-color: var(--no); color: #fff; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 52px 20px 72px;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+footer .heart-line {
+  font-family: 'Dancing Script', cursive;
+  font-size: 20px; color: var(--rose-deep);
+  margin-bottom: 8px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+
+/* tablet (iPad portrait ≥ 600px) */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .hero { padding: 80px 32px 64px; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .info-strip { grid-template-columns: repeat(2, 1fr); }
+  .info-strip .warn { grid-column: span 2; }
+  .tally { display: flex; }
+}
+
+/* iPad landscape / small desktop ≥ 1024px */
+@media (min-width: 1024px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+  .info-strip { grid-template-columns: repeat(3, 1fr); }
+  .tally { display: flex; }
+}
+
+/* mobile < 600px */
+@media (max-width: 599px) {
+  .hero { padding: 56px 16px 48px; text-align: center; }
+  .route-pills { justify-content: center; }
+  .route-pill { font-size: 12px; padding: 7px 13px; }
+  .card-grid { grid-template-columns: 1fr; gap: 14px; }
+  .info-strip { grid-template-columns: 1fr; }
+  .day-title { font-size: 26px; }
+  .place-name { font-size: 17px; }
+  .tally { display: none; }
+  .d-btn { padding: 11px 4px; font-size: 13px; }
+  .place-img-wrap { aspect-ratio: 3/2; }
+  .nav { padding: 8px 12px; }
+  .f-btn { font-size: 12.5px; padding: 8px 13px; }
+  .i-card { padding: 14px 16px; }
+  .wrap { padding: 0 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- floating petals injected by JS -->
+
+<div class="hero">
+  <div class="petal-wrap" id="petals"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">our little adventure ✈︎</div>
+    <h1>Cardiff, Bath<br><em>&amp; Bristol</em></h1>
+    <p class="hero-sub">Tap Yes, Maybe or Skip on each place — scroll together and plan the trip as you go 🌸</p>
+    <div class="route-pills">
+      <div class="route-pill"><span class="dot"></span> Sat 11 Jul — Bath + Bristol</div>
+      <div class="route-pill"><span class="dot"></span> Sun 12 Jul — Cardiff</div>
+      <div class="route-pill"><span class="dot"></span> Mon 13 Jul — Day trips + flight</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="filter-scroll" id="filters">
+      <button class="f-btn active" data-filter="all">🗺 All days</button>
+      <button class="f-btn" data-filter="bath">🛁 Bath</button>
+      <button class="f-btn" data-filter="bristol">🚢 Bristol</button>
+      <button class="f-btn" data-filter="cardiff">🏰 Cardiff</button>
+      <button class="f-btn" data-filter="day3">🌿 Out of Cardiff</button>
+    </div>
+    <div class="tally" id="tally">
+      <div class="tally-item"><span class="t-dot" style="background:var(--yes)"></span><span id="count-yes">0</span></div>
+      <div class="tally-item"><span class="t-dot" style="background:var(--maybe)"></span><span id="count-maybe">0</span></div>
+      <div class="tally-item"><span class="t-dot" style="background:var(--no)"></span><span id="count-no">0</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- info strip -->
+  <div class="info-strip">
+    <div class="i-card">
+      <h4>🚌 Transport (cheapest)</h4>
+      <p><strong>Airport → Cardiff:</strong> T9 bus ~£5 · 30 min</p>
+      <p><strong>Cardiff ↔ Bath:</strong> GWR train from ~£5.50</p>
+      <p><strong>Cardiff ↔ Bristol:</strong> coach from ~£4</p>
+    </div>
+    <div class="i-card">
+      <h4>🧳 Luggage storage</h4>
+      <p><a href="https://bounce.com/luggage-storage/cardiff" target="_blank">Bounce</a> — from £1.95/day</p>
+      <p><a href="https://stasher.com/luggage-storage/united-kingdom/cardiff" target="_blank">Stasher</a> — from £1.49/day</p>
+      <p><a href="https://luggagehero.com/cardiff/" target="_blank">LuggageHero</a> — from £1.49/day</p>
+    </div>
+    <div class="i-card warn">
+      <h4>⏰ Day 3 time budget</h4>
+      <p>Back in Cardiff centre by <strong>18:00</strong></p>
+      <p>Dinner 18:00–19:15 · T9 bus by 19:35</p>
+      <p>Airport by 20:10 · flight ✈ 22:10</p>
+    </div>
+  </div>
+
+  <!-- ═══ DAY 1 ═══ -->
+  <div class="day-section" data-day="bath bristol">
+    <div class="day-head">
+      <div class="day-badge"><span class="heart">♥</span> Day 1 · Sat 11 Jul</div>
+      <h2 class="day-title">Bath, then Bristol</h2>
+    </div>
+    <p class="day-sub">Drop bags at luggage storage near Cardiff Central, then train to Bath for the morning. After lunch, a 15-min train to Bristol for the afternoon and evening.</p>
+
+    <div class="city-label">Bath</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="roman-baths">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · paid</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Roman%20Baths%20in%20Bath%20Spa%2C%20England%20-%20July%202006.jpg" alt="Roman Baths" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Roman Baths</div>
+          <p class="place-desc">2,000-year-old thermae with the famous open-air Great Bath. One of the best-preserved Roman sites in the world.</p>
+          <a href="https://www.romanbaths.co.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bath-abbey">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · free</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bath%20cathedrale%20ext.jpg" alt="Bath Abbey" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Bath Abbey</div>
+          <p class="place-desc">Perpendicular Gothic church with soaring fan vaults and angels climbing ladders on its west front — free and right beside the Baths.</p>
+          <a href="https://www.bathabbey.org" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="pulteney-bridge">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · free</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Pulteney%20Bridge%20Bath.jpg" alt="Pulteney Bridge" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Pulteney Bridge</div>
+          <p class="place-desc">One of only four bridges in the world lined with shops on both sides, arching over a beautiful horseshoe weir.</p>
+          <a href="https://visitbath.co.uk/things-to-do/pulteney-bridge-p1370381" target="_blank" class="place-link">Visit Bath ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="royal-crescent">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · free outside</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Royal.crescent.aerial.bath.arp.jpg" alt="Royal Crescent" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Royal Crescent &amp; The Circus</div>
+          <p class="place-desc">Bath's grandest Georgian sweep — 30 terraced houses around a perfect lawn. Famous filming location for Bridgerton.</p>
+          <a href="https://no1royalcrescent.org.uk" target="_blank" class="place-link">No.1 Museum ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="thermae-spa">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · paid · optional</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 17c0 2.2 1.8 4 4 4s4-1.8 4-4M15 17c0 2.2 1.8 4 4 4"/><path d="M7 10c0-2.8 2.2-5 5-5s5 2.2 5 5v7H7v-7z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Thermae Bath Spa</div>
+          <p class="place-desc">Rooftop open-air pool fed by the same ancient hot springs — swim with views over Georgian rooftops. Book in advance!</p>
+          <a href="https://www.thermaebathspa.com" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="parade-gardens">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · small fee</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22V10M7 15c1.5-3 9-3 10 0M4 20c2-5 14-5 16 0"/><circle cx="12" cy="6" r="3"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Parade Gardens</div>
+          <p class="place-desc">Pretty Victorian riverside gardens right below Pulteney Bridge — sit by the weir and watch the world go by.</p>
+          <a href="https://visitbath.co.uk/things-to-do/parade-gardens-p1748901" target="_blank" class="place-link">Visit Bath ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bath-fashion-museum">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · paid</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Fashion Museum</div>
+          <p class="place-desc">Hundreds of years of dress history in the gorgeous Assembly Rooms — from Tudor garments to modern couture.</p>
+          <a href="https://fashionmuseum.co.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="prior-park">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bath · National Trust</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9l9-6 9 6M5 21V9h14v12M9 21v-5h6v5"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Prior Park Landscape Garden</div>
+          <p class="place-desc">18th-century hillside garden with a Palladian bridge and panoramic views down over Bath. Short bus ride out of town.</p>
+          <a href="https://www.nationaltrust.org.uk/visit/somerset/prior-park-landscape-garden" target="_blank" class="place-link">National Trust ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div><!-- /bath grid -->
+
+    <div class="city-label" style="margin-top:36px;">Bristol</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="ss-great-britain">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · paid</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/SS%20Great%20Britain%20%286726649319%29.jpg" alt="SS Great Britain" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">SS Great Britain</div>
+          <p class="place-desc">Brunel's revolutionary 1843 iron ocean liner, preserved in the dry dock where she was built. A proper museum inside too.</p>
+          <a href="https://www.ssgreatbritain.org" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="clifton-bridge">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · small toll</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Clifton%20Suspension%20Bridge-9350.jpg" alt="Clifton Suspension Bridge" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Clifton Suspension Bridge</div>
+          <p class="place-desc">Brunel's iconic span over the Avon Gorge. Bus up, walk back down through charming Clifton village.</p>
+          <a href="https://www.cliftonbridge.org.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bristol-harbour">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bristol%20harbour%20festival.jpg" alt="Bristol Harbourside" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Bristol Harbourside</div>
+          <p class="place-desc">The old Floating Harbour now buzzing with bars, galleries and moored boats — beautiful to walk along in the evening.</p>
+          <a href="https://visitbristol.co.uk/things-to-do/bristol-harbourside" target="_blank" class="place-link">Visit Bristol ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="m-shed">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free · open Sat</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">M Shed</div>
+          <p class="place-desc">Bristol's story through docks, people and culture. Free to enter and right on the harbourside. Closed Mondays — today's your day.</p>
+          <a href="https://www.bristolmuseums.org.uk/m-shed/" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bristol-museum">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free · open Sat</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 21V11m0 0V3l8 4v14M8 11l8-4M16 21v-6"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Bristol Museum &amp; Art Gallery</div>
+          <p class="place-desc">Free — dinosaurs, Egyptian mummies, fine art and natural history. Closed Mondays, so catch it today.</p>
+          <a href="https://www.bristolmuseums.org.uk/bristol-museum-and-art-gallery/" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="cabot-tower">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="9" y="2" width="6" height="20" rx="1"/><path d="M6 22h12M9 6h6M9 10h6M9 14h6"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Cabot Tower &amp; Brandon Hill</div>
+          <p class="place-desc">Free Victorian tower with panoramic views over Bristol. The park is a lovely spot to sit on the grass afterwards.</p>
+          <a href="https://visitbristol.co.uk/things-to-do/cabot-tower" target="_blank" class="place-link">Visit Bristol ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="st-nicholas-market">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2L3 6v1a3 3 0 006 0V6M12 2l3 4v1a3 3 0 01-6 0V6M18 2l3 4v1a3 3 0 01-6 0V6M4 21h16M4 10h16v11H4z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">St Nicholas Market</div>
+          <p class="place-desc">Bristol's oldest covered market — street food, crafts and independent traders. Great for a quick bite before heading back.</p>
+          <a href="https://www.stnicholasmarketbristol.co.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="banksy-walk">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M8 12s1-4 4-4 4 4 4 4-1 4-4 4-4-4-4-4z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Banksy Street Art Walk</div>
+          <p class="place-desc">Iconic stencil murals scattered around Stokes Croft and Bedminster. Pick up a free map from the tourist info and wander.</p>
+          <a href="https://visitbristol.co.uk/things-to-do/banksy-bristol" target="_blank" class="place-link">Visit Bristol ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="clifton-village">
+        <div class="place-img-wrap">
+          <span class="place-tag">Bristol · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9l9-6 9 6M5 21V9h14v12M9 21v-5h6v5"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Clifton Village</div>
+          <p class="place-desc">Upmarket Georgian neighbourhood near the bridge — independent boutiques, cafés and gorgeous views down into the Avon Gorge.</p>
+          <a href="https://visitbristol.co.uk/things-to-do/clifton-p40321" target="_blank" class="place-link">Visit Bristol ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div><!-- /bristol grid -->
+  </div><!-- /day1 -->
+
+  <!-- ═══ DAY 2 ═══ -->
+  <div class="day-section" data-day="cardiff">
+    <div class="day-head">
+      <div class="day-badge"><span class="heart">♥</span> Day 2 · Sun 12 Jul</div>
+      <h2 class="day-title">Cardiff city centre</h2>
+    </div>
+    <p class="day-sub">Nearly everything below is walkable. Cardiff Bay is a short Cardiff Bus ride or a lovely 30-min riverside stroll south.</p>
+
+    <div class="city-label">City centre</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="cardiff-castle">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · paid</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/A%20view%20of%20Cardiff%20Castle.jpg" alt="Cardiff Castle" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Cardiff Castle</div>
+          <p class="place-desc">Roman fort, Norman keep and lavish Victorian Gothic mansion all layered on one site right in the city centre.</p>
+          <a href="https://www.cardiffcastle.com" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="national-museum">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · free · Tue–Sun</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/National%20museum%20Cardiff%20front.jpg" alt="National Museum Cardiff" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">National Museum Cardiff</div>
+          <p class="place-desc">World-class free galleries — dinosaurs, Monet, Van Gogh, natural history. Open today (Sun) but closed Monday — don't miss it!</p>
+          <a href="https://museum.wales/cardiff/" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bute-park">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22V12M12 12a5 5 0 100-10 5 5 0 000 10zM6 22h12M8 17a4 4 0 108 0"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Bute Park &amp; Arboretum</div>
+          <p class="place-desc">56 acres of parkland threading along the Taff river right behind the castle. Perfect for a slow, peaceful wander.</p>
+          <a href="https://bute-park.com" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="arcades">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9l9-6 9 6M5 21V9h14v12M9 21v-5h6v5"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Victorian Arcades</div>
+          <p class="place-desc">Four gorgeous glass-roofed Victorian lanes — Royal, Morgan, Wyndham and Castle — packed with indie shops and cosy cafés.</p>
+          <a href="https://cardiffmarket.co.uk" target="_blank" class="place-link">Cardiff Market ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="principality-stadium">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · paid tour</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="12" cy="10" rx="9" ry="6"/><path d="M3 10v4c0 3.3 4 6 9 6s9-2.7 9-6v-4"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Principality Stadium</div>
+          <p class="place-desc">One of the world's great rugby stadiums with a retractable roof — walking distance from the castle. Tours run daily.</p>
+          <a href="https://www.principalitystadium.wales/tours" target="_blank" class="place-link">Stadium tours ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="cardiff-market">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · free to browse</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2L3 6v1a3 3 0 006 0V6M12 2l3 4v1a3 3 0 01-6 0V6M18 2l3 4v1a3 3 0 01-6 0V6M4 21h16M4 10h16v11H4z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Cardiff Indoor Market</div>
+          <p class="place-desc">Victorian covered market since 1891 with fresh produce, Welsh cakes, street food and quirky stalls.</p>
+          <a href="https://cardiffmarket.co.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="city-label" style="margin-top:36px;">Cardiff Bay</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="cardiff-bay">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The%20Wales%20Millennium%20Centre%20-%20geograph.org.uk%20-%201957577.jpg" alt="Wales Millennium Centre" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Wales Millennium Centre</div>
+          <p class="place-desc">Striking slate-and-steel arts building on the waterfront. Wander the free foyer or catch a show if one's on.</p>
+          <a href="https://www.wmc.org.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="senedd">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Senedd — Welsh Parliament</div>
+          <p class="place-desc">Dramatic glass parliament building by Richard Rogers. Free access to the public gallery — the architecture alone is worth the trip.</p>
+          <a href="https://senedd.wales/visiting-us/" target="_blank" class="place-link">Visiting info ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="mermaid-quay">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 7c3 0 6 2 9 2s6-2 9-2M3 12c3 0 6 2 9 2s6-2 9-2M3 17c3 0 6 2 9 2s6-2 9-2"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Mermaid Quay Waterfront</div>
+          <p class="place-desc">The main promenade of Cardiff Bay — restaurants, cafés and open water views. A lovely spot for late afternoon coffee.</p>
+          <a href="https://www.mermaidquay.co.uk" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="pier-head">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3v1M4.22 5.22l.7.7M3 12h1M4.22 18.78l.7-.7M12 20v1M18.78 18.08l-.7-.7M20 12h1M18.78 5.92l-.7.7M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Pier Head Building</div>
+          <p class="place-desc">Cardiff's iconic Victorian building in terracotta — nicknamed the Welsh Big Ben. Free to visit and photograph up close.</p>
+          <a href="https://pierhead.org" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bay-barrage">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 17h18M3 12h18M7 12V7m10 5V7M12 12V5"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Cardiff Bay Barrage Walk</div>
+          <p class="place-desc">Walk across the barrage for open views of the bay and the Bristol Channel beyond. Great for photos on a clear day.</p>
+          <a href="https://www.cardiffharbour.com" target="_blank" class="place-link">Cardiff Harbour ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /day2 -->
+
+  <!-- ═══ DAY 3 ═══ -->
+  <div class="day-section" data-day="day3">
+    <div class="day-head">
+      <div class="day-badge"><span class="heart">♥</span> Day 3 · Mon 13 Jul</div>
+      <h2 class="day-title">Out of Cardiff + the flight</h2>
+    </div>
+    <p class="day-sub">Recommended: Caerphilly morning → Castell Coch afternoon. Back by 18:00 for dinner before the flight. St Fagans and Penarth are free/easy alternatives.</p>
+
+    <div class="city-label">Day trips</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="caerphilly">
+        <div class="place-img-wrap">
+          <span class="place-tag">Morning · 20 min train</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Castell%20Caerffili%20o%27r%20awyr%20-%20aerial%20(drone)%20view%20of%20Caerphilly%20Castle%20-%202023%2013.jpg" alt="Caerphilly Castle" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Caerphilly Castle</div>
+          <p class="place-desc">Largest castle in Wales with massive moats and its very own leaning tower. Recently restored with new digital exhibits. Train ticket gets 2-for-1 entry!</p>
+          <a href="https://cadw.gov.wales/visit/places-to-visit/caerphilly-castle" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="castell-coch">
+        <div class="place-img-wrap">
+          <span class="place-tag">Afternoon · 30 min bus</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Castell%20Coch%20-%20exterior.JPG" alt="Castell Coch" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">Castell Coch</div>
+          <p class="place-desc">A fairy-tale Victorian Gothic castle hiding in beech woods. All rooms open despite conservation works. No café on site — bring snacks. Bus 132 from Cardiff.</p>
+          <a href="https://cadw.gov.wales/visit/places-to-visit/castell-coch" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="st-fagans">
+        <div class="place-img-wrap">
+          <span class="place-tag">Alternative · free · 20 min bus</span>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Approach%20to%20St%20Fagans%20Castle.jpg" alt="St Fagans" loading="lazy">
+        </div>
+        <div class="place-body">
+          <div class="place-name">St Fagans National Museum</div>
+          <p class="place-desc">One of Europe's best open-air museums — 40+ historic Welsh buildings across 100 acres of grounds. Free entry, open Mondays. Bus 32/320 from Cardiff Central.</p>
+          <a href="https://museum.wales/stfagans/" target="_blank" class="place-link">Official site ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="penarth">
+        <div class="place-img-wrap">
+          <span class="place-tag">Alternative · 15 min train</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 17c3 0 6-2 9-2s6 2 9 2"/><path d="M12 15V3M5 8l7 7 7-7"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Penarth Pier &amp; Seafront</div>
+          <p class="place-desc">Classic Victorian pier town just 15 mins from Cardiff — seaside walk, views over the Bristol Channel, and an art deco pavilion on the pier.</p>
+          <a href="https://www.visitwales.com/destination/vale-glamorgan/penarth" target="_blank" class="place-link">Visit Wales ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="city-label" style="margin-top:36px;">Evening back in Cardiff</div>
+    <div class="card-grid">
+
+      <div class="place-card" data-id="roath-park">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22V12M12 12a5 5 0 100-10 5 5 0 000 10zM6 22h12"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Roath Park Lake</div>
+          <p class="place-desc">Cardiff's most beloved park — a long boating lake with a lighthouse memorial to Captain Scott. Quiet and green, close to the city.</p>
+          <a href="https://www.cardiff.gov.uk/ENG/resident/Parks-and-green-spaces/Pages/Roath-Park.aspx" target="_blank" class="place-link">Cardiff Council ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="bay-dusk">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff Bay · free</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2a10 10 0 0110 10 10 10 0 01-10 10A10 10 0 012 12 10 10 0 0112 2z"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Cardiff Bay at dusk</div>
+          <p class="place-desc">If the timing allows, the Bay in the evening is magical — the WMC is lit up and the barrage makes for a calm last walk before the airport.</p>
+          <a href="https://www.cardiffharbour.com" target="_blank" class="place-link">Cardiff Harbour ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+      <div class="place-card" data-id="chippy-lane">
+        <div class="place-img-wrap">
+          <span class="place-tag">Cardiff · dinner</span>
+          <div class="place-icon-fallback">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M18 8c0 4-2 6-6 6S6 12 6 8M12 14v7M8 21h8M6 3v5M18 3v5"/></svg>
+          </div>
+        </div>
+        <div class="place-body">
+          <div class="place-name">Chippy Lane &amp; City Eats</div>
+          <p class="place-desc">Cardiff's legendary Caroline Street — chip shops, kebab spots and quick bites since the 1920s. Classic pre-airport fuel.</p>
+          <a href="https://visitcardiff.com/food-and-drink/" target="_blank" class="place-link">Visit Cardiff ↗</a>
+          <div class="decision-row"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /day3 -->
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="heart-line">made with love, for us 🌸</div>
+  Tap Yes / Maybe / Skip on any place — choices save and are shared with anyone who has this link<br>
+  Dublin → Cardiff → Bath → Bristol · 11–13 July 2026
+</footer>
+
+<script>
+(function(){
+  /* ─── Floating petals ─── */
+  const wrap = document.getElementById('petals');
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div'); p.className='petal';
+    const sz=6+Math.random()*10;
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      width:${sz}px;height:${sz*1.4}px;
+      animation-duration:${6+Math.random()*10}s;
+      animation-delay:${Math.random()*12}s;
+      transform:rotate(${Math.random()*360}deg);
+    `;
+    wrap.appendChild(p);
+  }
+
+  /* ─── Decision logic ─── */
+  const PREFIX = 'trip-decision:';
+  const decisions = {};
+
+  document.querySelectorAll('.place-card').forEach(card=>{
+    const id = card.dataset.id;
+    const row = card.querySelector('.decision-row');
+    [['yes','Yes ✓'],['maybe','Maybe'],['no','Skip']].forEach(([v,label])=>{
+      const btn=document.createElement('button');
+      btn.className='d-btn'; btn.dataset.v=v; btn.textContent=label;
+      btn.addEventListener('click',()=>toggle(id,v));
+      row.appendChild(btn);
+    });
+  });
+
+  function paint(id){
+    const val=decisions[id];
+    const card=document.querySelector('.place-card[data-id="'+id+'"]');
+    if(!card) return;
+    card.classList.remove('decided-yes','decided-no');
+    card.querySelectorAll('.d-btn').forEach(b=>b.classList.remove('active'));
+    if(val){
+      card.querySelector('.d-btn[data-v="'+val+'"]').classList.add('active');
+      if(val==='yes') card.classList.add('decided-yes');
+      if(val==='no')  card.classList.add('decided-no');
+    }
+  }
+
+  function tally(){
+    let y=0,m=0,n=0;
+    Object.values(decisions).forEach(v=>{if(v==='yes')y++;else if(v==='maybe')m++;else if(v==='no')n++;});
+    document.getElementById('count-yes').textContent=y;
+    document.getElementById('count-maybe').textContent=m;
+    document.getElementById('count-no').textContent=n;
+  }
+
+  async function toggle(id,v){
+    const nv=decisions[id]===v?null:v;
+    if(nv) decisions[id]=nv; else delete decisions[id];
+    paint(id); tally();
+    try{
+      if(nv) await window.storage.set(PREFIX+id,nv,true);
+      else   await window.storage.delete(PREFIX+id,true);
+    }catch(e){}
+  }
+
+  async function init(){
+    try{
+      const list=await window.storage.list(PREFIX,true);
+      if(list?.keys){
+        for(const k of list.keys){
+          try{
+            const r=await window.storage.get(k,true);
+            if(r?.value){
+              const id=k.slice(PREFIX.length);
+              decisions[id]=r.value; paint(id);
+            }
+          }catch(e){}
+        }
+      }
+    }catch(e){}
+    tally();
+  }
+  init();
+
+  /* ─── Filter buttons ─── */
+  document.getElementById('filters').addEventListener('click',e=>{
+    const btn=e.target.closest('.f-btn');
+    if(!btn) return;
+    document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.day-section').forEach(sec=>{
+      sec.style.display=(f==='all'||sec.dataset.day.split(' ').includes(f))?'':'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>
